@@ -1,0 +1,46 @@
+.jumbotron {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.jumbotron h1 {
+    margin-bottom: 25px;
+}
+
+.jumbotron h2 {
+    margin-bottom: 5px;
+}
+
+.nft_heading {
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+.nft_container {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    margin: 25px;
+    align-items: center;
+    justify-content: center;
+}
+
+.nft {
+    padding: 5px;
+    margin: 10px;
+}
+
+.nft img {
+    height: 200px;
+    width: 200px;
+    margin: 10px;
+}
+
+.jumbotron button {
+    background: #020202;
+    padding: 15px;
+    width: 200px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}

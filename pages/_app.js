@@ -4,11 +4,12 @@ import { WagmiConfig, createClient, configureChains, goerli } from "wagmi";
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { alchemyApiKey } from '@/data/constants';
 
 // Configure chains
 const { chains, provider, webSocketProvider } = configureChains(
   [goerli],
-  [alchemyProvider({ apiKey: 'ozyn6coXmHuryhrsOg2woy8lqdEoCoGy' }), publicProvider()],
+  [alchemyProvider({ apiKey: alchemyApiKey }), publicProvider()],
 );
 
 // Set up client

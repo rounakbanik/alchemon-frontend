@@ -8,16 +8,16 @@ import { useRouter } from "next/router";
 export default function Connect() {
 
     const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
-    const { address, connector, isConnected } = useAccount();
+    const { isConnected } = useAccount();
     const [hasMounted, setHasMounted] = useState(false);
     const router = useRouter();
 
-    // Hooks
+    // Mounting hook to prevent hydration errors
     useEffect(() => {
         setHasMounted(true);
     }, [])
 
-    // Render
+    // Redirect to main page if already connected
     if (!hasMounted) return null;
     if (isConnected) router.replace('/');
 
