@@ -1,8 +1,59 @@
 .main {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.main button {
+  width: 200px;
+  background: #020202;
+  padding: 8px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.main h2 {
+  margin-top: 50px;
+}
+
+.sample_nfts {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
-  padding: 6rem;
-  min-height: 100vh;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.nft {
+  margin: 10px;
+}
+
+.nft img {
+  height: 150px;
+  width: 150px;
+}
+
+.contract_container {
+  list-style: square outside none;
+  margin-top: 15px;
+}
+
+.contract_container li {
+  margin: 3px;
+}
+
+.breed_form select {
+  display: block;
+  text-align: center;
+  margin: 10px auto;
+  background: white;
+  color: black;
+  width: 200px;
+  padding: 10px;
+  outline: none;
+}
+
+.breed_form option {
+  color: black;
 }

@@ -59,7 +59,7 @@ export default function Dashboard() {
                         return (
                             <div className={styles.nft} key={nft.tokenId}>
                                 <h3>{nft.rawMetadata.name}</h3>
-                                <img src={nft.media[0].gateway}></img>
+                                <img src={nft.media[0].raw} />
                             </div>
                         )
                     })}
