@@ -1,22 +1,45 @@
+// Standard Next and CSS imports
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { Network, Alchemy } from "alchemy-sdk";
-import { alchemyApiKey, contractAddress } from "@/data/constants";
 import { useRouter } from "next/router";
-import { useAccount } from "wagmi";
 import { useState, useEffect, Fragment } from "react";
+
+// Alchemy SDK imports for NFT API
+import { Network, Alchemy } from "alchemy-sdk";
+
+// Imports from the constants.js file
+import { alchemyApiKey, contractAddress } from "@/data/constants";
+
+// Wagmi import for connected wallet info
+import { useAccount } from "wagmi";
+
+// Contract ABI import
 import contract from '@/contracts/AlchemonNft.json';
+
+// Ethers for invoking functions on smart contract
 import { ethers } from 'ethers';
 
+// Extract ABI from the ABI JSON file
 const abi = contract.abi;
 
 export default function Home() {
 
+  // Standard Next router definition
   const router = useRouter();
+
+  // Get connected wallet address and connection status
   const { address, isConnected } = useAccount();
+
+  // Page mounting info to prevent hydration errors
   const [hasMounted, setHasMounted] = useState(false);
+
+  // Variable that holds sample Alchemon NFTs
   const [samples, setSamples] = useState([]);
+
+  // Variable that holds contracts created by Owner address
   const [contracts, setContracts] = useState([]);
+
+  // Variable that holds all Alchemons created by connected wallet
   const [nfts, setNfts] = useState([]);
 
   // Parent Alchemons
@@ -31,6 +54,7 @@ export default function Home() {
 
   const alchemy = new Alchemy(settings);
 
+  // Mounting fix to avoid hydration errors
   useEffect(() => {
     setHasMounted(true)
   }, []);
@@ -40,10 +64,8 @@ export default function Home() {
     const getNfts = async () => {
       const response = await alchemy.nft.getNftsForOwner(address);
       const nfts = response.ownedNfts.filter(nft => nft.contract.address.toUpperCase() === contractAddress.toUpperCase());
-      console.log(nfts);
       setNfts(nfts);
     }
-
     getNfts();
   }, [])
 
@@ -54,7 +76,6 @@ export default function Home() {
       const nfts = response.nfts.slice(0, 3);
       setSamples(nfts);
     }
-
     getSamples();
   }, [])
 
@@ -68,8 +89,10 @@ export default function Home() {
       .catch(err => console.error(err));
   }, [])
 
-  // Redirect to Connect page if wallet is not connected
+  // Do not render until entire UI is mounted  
   if (!hasMounted) return null;
+
+  // Redirect to Connect page if wallet is not connected
   if (!isConnected) {
     router.replace('/connect');
   }
@@ -83,17 +106,19 @@ export default function Home() {
     setParent2(e.target.value);
   }
 
+
+  // Function that allows breeding of NFTs using 2 parent NFTs
   const mintNft = async (e) => {
 
     e.preventDefault();
 
-    console.log(parent1, parent2);
-
+    // Only allow breeding if the parents are distinct 
     if (parent1 === 'none' || parent2 === 'none' || parent1 === parent2) {
       console.log("Incorrect parents");
       return;
     }
 
+    // Call the breed function from connected wallet
     try {
       const { ethereum } = window;
 
@@ -122,18 +147,23 @@ export default function Home() {
 
   return (
     <Fragment>
+
       <Head>
         <title>Alchemon</title>
         <meta name="description" content="A simple NFT based game" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main className={styles.main}>
         <h1>Alchemon</h1>
+
         <button onClick={() => router.push('/dashboard')}>
           Profile Dashboard
         </button>
+
         <h2>Breed a New Alchemon</h2>
+
         <form className={styles.breed_form} onSubmit={mintNft}>
           <select name="parent1" id="parent1" value={parent1} onChange={parent1Handler}>
             <option value="none">---</option>
@@ -149,6 +179,7 @@ export default function Home() {
           </select>
           <button type='submit'>Breed</button>
         </form>
+
         <h2>Sample Alchemon NFTs</h2>
         <div className={styles.sample_nfts}>
           {samples.map(nft => {
@@ -160,6 +191,7 @@ export default function Home() {
             )
           })}
         </div>
+
         <h2>Projects by Alchemon Creators</h2>
         <ul className={styles.contract_container}>
           {contracts.map(contract => {
@@ -172,6 +204,7 @@ export default function Home() {
             )
           })}
         </ul>
+
       </main>
     </Fragment>
   )
