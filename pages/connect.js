@@ -4,10 +4,13 @@ import styles from "../styles/connect.module.css";
 import { useConnect, useAccount } from 'wagmi'
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { goerli } from "wagmi";
 
 export default function Connect() {
 
-    const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
+    const { connect, connectors, error, isLoading, pendingConnector } = useConnect({
+        chainId: goerli.id,
+    });
     const { isConnected } = useAccount();
     const [hasMounted, setHasMounted] = useState(false);
     const router = useRouter();
