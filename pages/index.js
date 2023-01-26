@@ -49,6 +49,9 @@ export default function Home() {
   // Form error message
   const [formError, setFormError] = useState(null);
 
+  // Minting state
+  const [isMinting, setIsMinting] = useState(false);
+
   // Initialize Alchemy SDK
   const settings = {
     apiKey: alchemyApiKey,
@@ -129,6 +132,8 @@ export default function Home() {
       const { ethereum } = window;
 
       if (ethereum) {
+
+        setIsMinting(true);
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const nftContract = new ethers.Contract(contractAddress, abi, signer);
@@ -140,13 +145,17 @@ export default function Home() {
         await nftTxn.wait();
 
         console.log(`Mined, see transaction: https://goerli.etherscan.io/tx/${nftTxn.hash}`);
-        router.replace('/dashboard');
+        router.push({
+          pathname: '/dashboard',
+          query: { event: 'mint' },
+        }, '/dashboard');
 
       } else {
         console.log("Ethereum object does not exist");
       }
 
     } catch (err) {
+      setIsMinting(false);
       console.log(err);
     }
   }
@@ -185,6 +194,7 @@ export default function Home() {
           </select>
           <button type='submit'>Breed</button>
           {formError && <p className={styles.form_error}>{formError}</p>}
+          {isMinting && <p className={styles.minting}>Your new Alchemon is minting. Please wait...</p>}
         </form>
 
         <h2>Sample Alchemon NFTs</h2>

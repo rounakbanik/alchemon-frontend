@@ -27,6 +27,9 @@ export default function Dashboard() {
     // Variable that holds all Alchemons created by connected wallet
     const [nfts, setNfts] = useState([]);
 
+    // Mint redirect
+    const [redirect, setRedirect] = useState(false);
+
     // Initialize Alchemy SDK
     const settings = {
         apiKey: alchemyApiKey,
@@ -39,6 +42,11 @@ export default function Dashboard() {
     useEffect(() => {
         setHasMounted(true);
     }, []);
+
+    // Check if this is a mint redirect
+    useEffect(() => {
+        if (router.query.event === 'mint') setRedirect(true);
+    }, [router.query]);
 
     // Get all Alchemon NFTs owned by the connected wallet
     useEffect(() => {
@@ -68,6 +76,7 @@ export default function Dashboard() {
             <div className={styles.jumbotron}>
 
                 <h1>Dashboard</h1>
+                {redirect && <p className={styles.mint}>Success! Check out your new Alchemon below!</p>}
 
                 <h2>Contract Address</h2>
                 <p>{address}</p>
