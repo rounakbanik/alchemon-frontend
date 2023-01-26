@@ -57,3 +57,8 @@
 .breed_form option {
   color: black;
 }
+
+.form_error {
+  color: red;
+  margin-top: 5px;
+}

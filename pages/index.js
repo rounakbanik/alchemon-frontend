@@ -46,6 +46,9 @@ export default function Home() {
   const [parent1, setParent1] = useState('none');
   const [parent2, setParent2] = useState('none');
 
+  // Form error message
+  const [formError, setFormError] = useState(null);
+
   // Initialize Alchemy SDK
   const settings = {
     apiKey: alchemyApiKey,
@@ -112,9 +115,12 @@ export default function Home() {
 
     e.preventDefault();
 
+    setFormError(null);
+
     // Only allow breeding if the parents are distinct 
     if (parent1 === 'none' || parent2 === 'none' || parent1 === parent2) {
       console.log("Incorrect parents");
+      setFormError('Please choose two different valid IDs as parents');
       return;
     }
 
@@ -178,6 +184,7 @@ export default function Home() {
             })}
           </select>
           <button type='submit'>Breed</button>
+          {formError && <p className={styles.form_error}>{formError}</p>}
         </form>
 
         <h2>Sample Alchemon NFTs</h2>
